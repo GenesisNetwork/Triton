@@ -7,10 +7,12 @@ import com.rexcantor64.triton.api.config.FeatureSyntax;
 import com.rexcantor64.triton.api.language.Localized;
 import com.rexcantor64.triton.language.localized.StringLocale;
 import com.rexcantor64.triton.language.parser.AdvancedComponent;
+import com.rexcantor64.triton.player.LanguagePlayer;
 import com.rexcantor64.triton.player.SpigotLanguagePlayer;
 import com.rexcantor64.triton.utils.ComponentUtils;
 import com.rexcantor64.triton.utils.ItemStackTranslationUtils;
 import com.rexcantor64.triton.wrappers.legacy.HoverComponentWrapper;
+import lombok.Setter;
 import lombok.val;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -24,6 +26,8 @@ import net.md_5.bungee.chat.ComponentSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class LanguageParser implements com.rexcantor64.triton.api.language.LanguageParser {
@@ -284,6 +288,9 @@ public class LanguageParser implements com.rexcantor64.triton.api.language.Langu
         return advancedComponent;
     }
 
+
+    private @Setter BiFunction<UUID, String, String> miniMessageParser = (playerUUID, mmInput) -> GsonComponentSerializer.gson().serialize(MiniMessage.miniMessage().deserialize(mmInput));
+
     private AdvancedComponent parseTritonTranslation(String translatedResult, Localized contextPlayer) {
         if (contextPlayer instanceof SpigotLanguagePlayer && Triton.isSpigot() && Triton.asSpigot().isPapiEnabled()) {
             SpigotLanguagePlayer slp = (SpigotLanguagePlayer) contextPlayer;
@@ -303,12 +310,11 @@ public class LanguageParser implements com.rexcantor64.triton.api.language.Langu
                         .logError(e, "Failed to parse JSON translation: %1", jsonInput);
                 componentResult = TextComponent.fromLegacyText(jsonInput);
             }
-        } else if (translatedResult.startsWith("[minimsg]")) {
-            val mmInput = translatedResult.substring(9);
+        } else {
+            val mmInput = translatedResult.startsWith("[minimsg]") ? translatedResult.substring(9) : translatedResult;
             try {
-                val textComponent = MiniMessage.miniMessage().deserialize(mmInput);
-                val jsonSerialized = GsonComponentSerializer.gson().serialize(textComponent);
-                componentResult = ComponentSerializer.parse(jsonSerialized);
+                UUID uuid = (contextPlayer instanceof LanguagePlayer) ? ((LanguagePlayer) contextPlayer).getUUID() : null;
+                componentResult = ComponentSerializer.parse(miniMessageParser.apply(uuid, mmInput));
             } catch (JsonParseException | NullPointerException e) {
                 Triton.get().getLogger()
                         .logError(e, "Failed to parse Mini Message translation: %1", mmInput);
@@ -317,8 +323,6 @@ public class LanguageParser implements com.rexcantor64.triton.api.language.Langu
                 Triton.get().getLogger().logError(e, "Failed to parse Mini Message translation because Mini Message is only available on PaperMC (or forks).");
                 componentResult = TextComponent.fromLegacyText(mmInput);
             }
-        } else {
-            componentResult = TextComponent.fromLegacyText(translatedResult);
         }
         return AdvancedComponent.fromBaseComponent(componentResult);
     }

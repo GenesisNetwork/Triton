@@ -3,6 +3,9 @@ package com.rexcantor64.triton.api.language;
 import com.rexcantor64.triton.api.config.FeatureSyntax;
 import net.md_5.bungee.api.chat.BaseComponent;
 
+import java.util.UUID;
+import java.util.function.BiFunction;
+
 /**
  * The class responsible by translating messages with placeholders
  */
@@ -29,5 +32,11 @@ public interface LanguageParser {
      * @return The input but with Triton's placeholders replaced by the message in the provided language.
      */
     BaseComponent[] parseComponent(String language, FeatureSyntax syntax, BaseComponent... input);
+
+    /**
+     * Sets the parser used to process minimessage
+     * @param parser The parser to process minimessage
+     */
+    void setMiniMessageParser(BiFunction<UUID, String, String> parser);
 
 }

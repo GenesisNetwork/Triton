@@ -18,6 +18,11 @@ public class VelocityCommandHandler extends CommandHandler implements SimpleComm
         return super.handleTabCompletion(buildCommandEvent(invocation, ""));
     }
 
+    @Override
+    public boolean hasPermission(Invocation invocation){
+        return invocation.source().hasPermission(invocation.alias() + ".command");
+    }
+
     private CommandEvent buildCommandEvent(Invocation invocation, String defaultSubcommand) {
         val args = invocation.arguments();
         val subCommand = args.length >= 1 ? args[0] : defaultSubcommand;

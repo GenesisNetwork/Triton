@@ -142,6 +142,10 @@ public abstract class Triton implements com.rexcantor64.triton.api.Triton {
     private void setupStorage() {
         if (config.getStorageType().equalsIgnoreCase("mysql")) {
             try {
+                if(this.storage instanceof MysqlStorage) {
+                    ((MysqlStorage) this.storage).getDataSource().close();
+                }
+
                 val mysqlStorage = new MysqlStorage(config.getDatabaseHost(), config.getDatabasePort(), config
                         .getDatabaseName(), config.getDatabaseUser(), config.getDatabasePassword(), config
                         .getDatabaseTablePrefix());

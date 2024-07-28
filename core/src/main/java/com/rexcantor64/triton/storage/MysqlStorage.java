@@ -11,6 +11,7 @@ import com.rexcantor64.triton.player.LanguagePlayer;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Cleanup;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import lombok.var;
@@ -42,7 +43,7 @@ public class MysqlStorage extends Storage {
     private final String user;
     private final String password;
     private final String tablePrefix;
-    private HikariDataSource dataSource;
+    private @Getter HikariDataSource dataSource;
     private IpCache ipCache;
 
     @Override

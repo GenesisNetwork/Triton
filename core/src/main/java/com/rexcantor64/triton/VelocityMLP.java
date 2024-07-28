@@ -35,6 +35,12 @@ public class VelocityMLP extends Triton {
 
     @Override
     public void onEnable() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            loader.getTritonLogger().logError(ex, "Unable to load velocity mysql driver");
+        }
+
         instance = this;
         super.onEnable();
 

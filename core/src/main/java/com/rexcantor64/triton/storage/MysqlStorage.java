@@ -14,7 +14,6 @@ import lombok.Cleanup;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import lombok.var;
 
 import java.lang.reflect.Type;
 import java.sql.*;

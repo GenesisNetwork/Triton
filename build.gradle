@@ -19,8 +19,8 @@ group 'com.rexcantor64.triton'
 allprojects {
     apply plugin: 'java'
     version '3.9.5'
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 17
+    targetCompatibility = 17
     repositories {
         mavenLocal()
         mavenCentral()
@@ -51,11 +51,11 @@ allprojects {
 
 subprojects {
     dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.22'
-        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-        testCompileOnly 'org.projectlombok:lombok:1.18.22'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+        testCompileOnly 'org.projectlombok:lombok:1.18.30'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
     }
 }
 

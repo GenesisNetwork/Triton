@@ -5,7 +5,6 @@ import com.rexcantor64.triton.config.interfaces.ConfigurationProvider;
 import com.rexcantor64.triton.config.interfaces.YamlConfiguration;
 import com.rexcantor64.triton.utils.YAMLUtils;
 import lombok.val;
-import lombok.var;
 
 import java.util.Collections;
 import java.util.HashMap;

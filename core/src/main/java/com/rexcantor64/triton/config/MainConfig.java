@@ -87,6 +87,8 @@ public class MainConfig implements TritonConfig {
     private FeatureSyntax scoreboardSyntax;
     private boolean advancements;
     private FeatureSyntax advancementsSyntax;
+    private boolean deathScreen;
+    private FeatureSyntax deathScreenSyntax;
     private boolean advancementsRefresh;
     private boolean terminal;
     private boolean terminalAnsi;
@@ -114,6 +116,7 @@ public class MainConfig implements TritonConfig {
     private long databaseMysqlPoolConnTimeout;
     private Map<String, String> databaseMysqlPoolProperties;
     private boolean iKnowWhatIAmDoing;
+    private String twinInstance;
 
     public MainConfig(Triton main) {
         this.main = main;
@@ -181,6 +184,7 @@ public class MainConfig implements TritonConfig {
         setupLanguageCreation(languageCreation);
 
         this.iKnowWhatIAmDoing = section.getBoolean("i-know-what-i-am-doing", false);
+        this.twinInstance = section.getString("twin-instance", "https://twin.rexcantor64.com");
     }
 
     public void setup() {
@@ -286,6 +290,10 @@ public class MainConfig implements TritonConfig {
         this.advancements = advancements.getBoolean("enabled", false);
         this.advancementsSyntax = FeatureSyntax.fromSection(advancements);
         this.advancementsRefresh = advancements.getBoolean("experimental-advancements-refresh", false);
+
+        Configuration deathScreen = section.getSection("death-screen");
+        this.deathScreen = deathScreen.getBoolean("enabled", true);
+        this.deathScreenSyntax = FeatureSyntax.fromSection(deathScreen);
 
         List<String> hologramList = holograms.getStringList("types");
         for (String hologram : hologramList)

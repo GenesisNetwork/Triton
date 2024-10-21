@@ -1,6 +1,7 @@
 package com.rexcantor64.triton.utils;
 
 import com.comphenix.protocol.utility.MinecraftReflection;
+import com.comphenix.protocol.utility.MinecraftVersion;
 import com.rexcantor64.triton.Triton;
 import com.rexcantor64.triton.api.wrappers.EntityType;
 import lombok.SneakyThrows;
@@ -26,7 +27,7 @@ public class EntityTypeUtils {
 
     private static EntityType getEntityTypeByIdNoCache(int id) {
         try {
-            if (Triton.get().getMcVersion() >= 13) {
+            if (MinecraftVersion.AQUATIC_UPDATE.atOrAbove()) { // 1.13+
                 calculateEntityRegistrySet();
 
                 Object type = registryGetTypeByNumericIdMethod.invoke(entityTypeRegistry, id);

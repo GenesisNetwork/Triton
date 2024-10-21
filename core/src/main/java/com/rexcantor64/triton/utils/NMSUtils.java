@@ -1,5 +1,6 @@
 package com.rexcantor64.triton.utils;
 
+import com.comphenix.protocol.utility.MinecraftReflection;
 import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -155,26 +156,20 @@ public class NMSUtils {
         }
     }
 
+    /**
+     * @deprecated Use {@link MinecraftReflection#getMinecraftClass(String)} instead.
+     */
+    @Deprecated
     public static Class<?> getNMSClass(String className) {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-        try {
-            Class<?> c = Class.forName("net.minecraft.server." + version + "." + className);
-            return c;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+        return MinecraftReflection.getMinecraftClass(className);
     }
 
+    /**
+     * @deprecated Use {@link MinecraftReflection#getCraftBukkitClass(String)} instead.
+     */
+    @Deprecated
     public static Class<?> getCraftbukkitClass(String className) {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-        try {
-            Class<?> c = Class.forName("org.bukkit.craftbukkit." + version + "." + className);
-            return c;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+        return MinecraftReflection.getCraftBukkitClass(className);
     }
 
 }

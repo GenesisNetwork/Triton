@@ -41,7 +41,6 @@ dependencies {
     implementation 'org.bstats:bstats-bungeecord:2.2.1'
     implementation project(path: ":api")
     implementation project(path: ":spigot-legacy")
-    implementation project(path: ":v1_13")
 
     // Test dependencies
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
